@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Nutrition from "../Components/tracking/Nutrition";
-import MealEntry from "../Components/tracking/MealEntry";
+// import MealEntry from "../Components/tracking/MealEntry";
 
 const Tracking = () => {
   const [meals, setMeals] = useState([]);
