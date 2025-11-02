@@ -1,9 +1,10 @@
-import MainHome from './components/MainHome'
+
+import HomePage from './Pages/HomePage'
 
 const App = () => {
   return (
  <>
- <MainHome/>
+ <HomePage/>
  </>
   )
 }
