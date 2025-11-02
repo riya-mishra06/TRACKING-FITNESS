@@ -1,0 +1,27 @@
+import React, { useState } from "react";
+import Nutrition from "../Components/tracking/Nutrition";
+import MealEntry from "../Components/tracking/MealEntry";
+
+const Tracking = () => {
+  const [meals, setMeals] = useState([]);
+
+  const addMeal = (meal) => {
+    setMeals([...meals, meal]);
+  };
+
+  const deleteMeal = (index) => {
+    setMeals(meals.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div className="min-h-screen bg-[#040603] text-white p-4 md:p-8">
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">Daily Nutrition Tracking</h1>
+
+      <Nutrition addMeal={addMeal} />
+
+      <MealEntry meals={meals} deleteMeal={deleteMeal} />
+    </div>
+  );
+};
+
+export default Tracking;
