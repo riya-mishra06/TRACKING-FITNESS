@@ -3,7 +3,7 @@ import React from "react";
 const MealEntry = ({ meals, deleteMeal, editMeal }) => {
   return (
     <div className="bg-[#091a05] p-5 rounded-xl mt-6">
-      <h2 className="text-lg font-semibold mb-4">Added Items</h2>
+      <h2 className="text-lg font-semibold mb-4">Added Items </h2>
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm">

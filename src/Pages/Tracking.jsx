@@ -19,7 +19,7 @@ const Tracking = () => {
 
       <Nutrition addMeal={addMeal} />
 
-      <MealEntry meals={meals} deleteMeal={deleteMeal} />
+      {/* <MealEntry meals={meals} deleteMeal={deleteMeal} /> */}
     </div>
   );
 };
