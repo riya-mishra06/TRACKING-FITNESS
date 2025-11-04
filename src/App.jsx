@@ -3,8 +3,8 @@ import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
 import DashBoard from "./Pages/DashBoard";
 import Tracking from "./Pages/Tracking";
-// import Reports from "./Pages/Reports";
 import MemberShip from "./Pages/MemberShip";
+import Footer from "./Components/Common.jsx/Footer";
 
 function App() {
   return (
@@ -14,8 +14,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/tracking" element={<Tracking />} />
-        {/* <Route path="/reports" element={<Reports />} /> */}
         <Route path="/membership" element={<MemberShip />} />
+        <Route path="/footer" element={<Footer />} />
       </Routes>
     </BrowserRouter>
   );

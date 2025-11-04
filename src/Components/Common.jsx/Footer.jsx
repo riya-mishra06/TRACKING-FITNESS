@@ -3,7 +3,7 @@ const Footer = () => {
     <footer className=" bg-[#040603] text-gray-300 py-16 px-5 border-t border-white/10">
       
       {/* Try Demo Section */}
-      <div className="text-center mb-14">
+      <div id="Support" className="text-center mb-14">
         <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3">
           Try Demo
         </h2>
