@@ -1,201 +1,157 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import app from "../firebase";
 
 const LoginPage = () => {
-  const [isSignInForm, setIsSignInForm] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [infoMessage, setInfoMessage] = useState(null);
+  const [isLogin, setIsLogin] = useState(true);
 
-  const name = useRef(null);
-  const email = useRef(null);
-  const password = useRef(null);
+  // input states
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // popup message
+  const [popup, setPopup] = useState({ type: "", message: "" });
 
   const auth = getAuth(app);
-
   const navigate = useNavigate();
 
-  const toggleSignInForm = () => {
-    setIsSignInForm((prev) => !prev);
-    setErrorMessage("");
-    setInfoMessage("");
+  // show popup
+  const showPopup = (type, message) => {
+    setPopup({ type, message });
+    setTimeout(() => setPopup({ type: "", message: "" }), 2000);
   };
 
-  // Simple validation function
-  const validate = (nameVal, emailVal, passwordVal, isSignIn) => {
-    if (!emailVal || !passwordVal) {
-      return "Email and password are required.";
-    }
-    // Basic email regex
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-      return "Invalid email format.";
-    }
-    if (passwordVal.length < 6) {
-      return "Password must be at least 6 characters.";
-    }
-    if (!isSignIn && (!nameVal || nameVal.trim() === "")) {
-      return "Name is required for sign up.";
-    }
-    return "";
-  };
-
-  const handleButtonClick = async (e) => {
-    e.preventDefault();
-    setErrorMessage(null);
-    setInfoMessage(null);
-
-    const message = validate(
-      !isSignInForm ? name.current?.value : null,
-      email.current.value,
-      password.current.value,
-      isSignInForm
-    );
-
-    setErrorMessage(message);
-    if (message) return;
-
+  // LOGIN
+  const handleLogin = async () => {
     try {
-      if (!isSignInForm) {
-        // Sign Up flow
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email.current.value,
-          password.current.value
-        );
-        if (name.current?.value) {
-          await updateProfile(userCredential.user, {
-            displayName: name.current.value,
-          });
-        }
-        // After signup show message and switch to signin form
-        setInfoMessage("User created successfully! Please log in.");
-        setIsSignInForm(true);
-        // Optionally clear signup fields
-        if (name.current) name.current.value = "";
-        if (email.current) email.current.value = "";
-        if (password.current) password.current.value = "";
-      } else {
-        // Sign In flow
-        await signInWithEmailAndPassword(
-          auth,
-          email.current.value,
-          password.current.value
-        );
-        setInfoMessage("User login successful."); // Show message (optional)
-        setErrorMessage(null);
-        // Short delay to briefly show message, then navigate
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 600);
-      }
+      await signInWithEmailAndPassword(auth, email, password);
+      showPopup("success", "Login Successful!");
+
+      setTimeout(() => navigate("/dashboard"), 1000);
     } catch (error) {
-      // Handle wrong email or password error
-      // Firebase error codes: https://firebase.google.com/docs/reference/js/auth#autherrorcodes
-      if (
-        error.code === "auth/user-not-found" ||
-        error.code === "auth/wrong-password" ||
-        error.code === "auth/invalid-credential"
-      ) {
-        setErrorMessage(
-          "Email or password incorrect. Please check and try again."
-        );
-      } else if (error.code === "auth/email-already-in-use") {
-        setErrorMessage("This email is already registered. Please log in.");
-      } else {
-        setErrorMessage(error.message);
-      }
+      showPopup("error", error.message);
+    }
+  };
+
+  // REGISTER
+  const handleRegister = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+
+      await updateProfile(user.user, {
+        displayName: name,
+      });
+
+      showPopup("success", "Account Created Successfully!");
+      setIsLogin(true);
+      setName("");
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      showPopup("error", error.message);
+    }
+  };
+
+  // BUTTON FUNC
+  const handleSubmit = () => {
+    if (isLogin) {
+      handleLogin();
+    } else {
+      handleRegister();
     }
   };
 
   return (
-    <>
-      <div className="relative w-full min-h-screen flex flex-col bg-black overflow-hidden">
-        <div className="min-h-[88.5vh] w-full bg-[#040603] flex items-center justify-center px-4 pt-28 sm:pt-32 md:pt-20">
-          <div className="bg-[#040603]/60 rounded-xl p-6 sm:p-8 md:p-10 w-full sm:w-[80%] md:w-[45%] lg:w-[30%] shadow-xl border border-white/10 backdrop-blur-md transition-all duration-300">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6 text-center">
-              {isSignInForm ? "Welcome Back" : "Create Your Account"}
-            </h2>
+    <div className="relative w-full min-h-screen flex flex-col bg-black overflow-hidden">
 
-            <form
-              onSubmit={handleButtonClick}
-              className="flex flex-col gap-4 sm:gap-5"
+      {/* Popup Message */}
+      {popup.message && (
+        <div
+          className={`fixed top-5 left-1/2 -translate-x-1/2 py-2 px-4 rounded-md text-white shadow-lg 
+          ${popup.type === "success" ? "bg-green-600" : "bg-red-600"}`}
+        >
+          {popup.message}
+        </div>
+      )}
+
+      <div className="min-h-[88.5vh] w-full bg-[#040603] flex items-center justify-center px-4 pt-28 sm:pt-32 md:pt-20">
+
+        <div className="bg-[#040603]/60 rounded-xl p-6 sm:p-8 md:p-10 w-full sm:w-[80%] md:w-[45%] lg:w-[30%] shadow-xl border border-white/10 backdrop-blur-md">
+
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 text-center">
+            {isLogin ? "Welcome to FitTrack" : "Create Your Account"}
+          </h2>
+
+          <form className="flex flex-col gap-4 sm:gap-5" onSubmit={(e) => e.preventDefault()}>
+
+            {!isLogin && (
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="p-3 rounded bg-neutral-900/90 focus:bg-neutral-800 text-white placeholder-gray-400 border border-neutral-700 outline-none text-sm sm:text-base"
+              />
+            )}
+
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="p-3 rounded bg-neutral-900/90 focus:bg-neutral-800 text-white placeholder-gray-400 border border-neutral-700 outline-none text-sm sm:text-base"
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="p-3 rounded bg-neutral-900/90 focus:bg-neutral-800 text-white placeholder-gray-400 border border-neutral-700 outline-none text-sm sm:text-base"
+            />
+
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="bg-[#9EE52E] hover:bg-[#8ad926] text-black py-3 rounded font-semibold shadow-lg text-sm sm:text-base transition-all"
             >
-              {!isSignInForm && (
-                <input
-                  ref={name}
-                  type="text"
-                  placeholder="Full Name"
-                  className="p-3 rounded bg-neutral-900/90 focus:bg-neutral-800 text-white placeholder-gray-400 border border-neutral-700 focus:border-green-500 outline-none duration-200 text-sm sm:text-base"
-                />
-              )}
+              {isLogin ? "Login" : "Register"}
+            </button>
+          </form>
 
-              <input
-                ref={email}
-                type="email"
-                placeholder="Email Address"
-                className="p-3 rounded bg-neutral-900/90 focus:bg-neutral-800 text-white placeholder-gray-400 border border-neutral-700 focus:border-green-500 outline-none duration-200 text-sm sm:text-base"
-              />
-
-              <input
-                ref={password}
-                type="password"
-                placeholder="Password"
-                className="p-3 rounded bg-neutral-900/90 focus:bg-neutral-800 text-white placeholder-gray-400 border border-neutral-700 focus:border-green-500 outline-none duration-200 text-sm sm:text-base"
-              />
-
-              {infoMessage && (
-                <p className="text-green-400 text-xs sm:text-base font-medium text-center">
-                  {infoMessage}
-                </p>
-              )}
-
-              {errorMessage && (
-                <p className="text-red-400 text-xs sm:text-sm font-medium">
-                  {errorMessage}
-                </p>
-              )}
-
-              <button
-                type="submit"
-                className="bg-[#9EE52E] hover:bg-[#8ad926] text-black py-3 rounded font-semibold shadow-lg transition-all hover:scale-[1.03] active:scale-95 text-sm sm:text-base"
-              >
-                {isSignInForm ? "Sign In" : "Sign Up"}
-              </button>
-            </form>
-
-            <p className="text-gray-400 text-xs sm:text-sm mt-5 text-center">
-              {isSignInForm ? (
-                <>
-                  Don’t have an account?{" "}
-                  <span
-                    className="text-[#8ad926] font-semibold cursor-pointer hover:underline"
-                    onClick={toggleSignInForm}
-                  >
-                    Sign Up
-                  </span>
-                </>
-              ) : (
-                <>
-                  Already registered?{" "}
-                  <span
-                    className="text-[#8ad926] font-semibold cursor-pointer hover:underline"
-                    onClick={toggleSignInForm}
-                  >
-                    Sign In
-                  </span>
-                </>
-              )}
-            </p>
-          </div>
+          <p className="text-gray-400 text-xs sm:text-sm mt-5 text-center">
+            {isLogin ? (
+              <>
+                Don’t have an account?{" "}
+                <span
+                  className="text-[#9EE52E] font-semibold cursor-pointer hover:underline"
+                  onClick={() => setIsLogin(false)}
+                >
+                  Register
+                </span>
+              </>
+            ) : (
+              <>
+                Already have an account?{" "}
+                <span
+                  className="text-[#9EE52E] font-semibold cursor-pointer hover:underline"
+                  onClick={() => setIsLogin(true)}
+                >
+                  Login
+                </span>
+              </>
+            )}
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

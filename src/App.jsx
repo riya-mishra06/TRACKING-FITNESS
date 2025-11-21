@@ -5,7 +5,6 @@ import DashBoard from "./Pages/DashBoard";
 import Tracking from "./Pages/Tracking";
 import MemberShip from "./Pages/MemberShip";
 import Footer from "./Components/Common.jsx/Footer";
-import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   return (
@@ -16,35 +15,12 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Protected Routes */}
-        <Route 
-          path="/dashboard" 
-          element={
-            <ProtectedRoute>
-              <DashBoard />
-            </ProtectedRoute>
-          } 
-        />
+        {/* These were protected, now normal */}
+        <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/tracking" element={<Tracking />} />
+        <Route path="/membership" element={<MemberShip />} />
 
-        <Route 
-          path="/tracking" 
-          element={
-            <ProtectedRoute>
-              <Tracking />
-            </ProtectedRoute>
-          } 
-        />
-
-        <Route 
-          path="/membership" 
-          element={
-            <ProtectedRoute>
-              <MemberShip />
-            </ProtectedRoute>
-          } 
-        />
-
-        {/* Public but separate */}
+        {/* Public */}
         <Route path="/footer" element={<Footer />} />
 
       </Routes>

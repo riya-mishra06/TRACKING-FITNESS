@@ -3,7 +3,7 @@ import WelcomeCard from "../Components/Dashboard/WelcomeCard";
 import StateOverview from "../Components/Dashboard/StateOverview";
 import DailyProgress from "../Components/Dashboard/DailyProgress";
 import RecentActive from "../Components/Dashboard/RecentActive";
-import NavBar from "../Components/Common.jsx/NavBar";
+import Nav from "../Components/Common.jsx/Nav";
 
 const DashBoard = () => {
   const [userData] = useState({
@@ -27,8 +27,8 @@ const DashBoard = () => {
   return (
  <>
  <div>
-  <NavBar/>
-     <div className="min-h-screen  bg-[#040603] text-white p-4 md:p-8">
+  <Nav/>
+     <div className="min-h-screen  bg-[#040603] text-white mt-20 p-4 md:p-8">
       <WelcomeCard name={userData.name} date={userData.date} />
       <StateOverview data={userData} />
       <DailyProgress data={userData} />
