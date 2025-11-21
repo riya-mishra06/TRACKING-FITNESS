@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const plans = [
   {
@@ -27,8 +28,9 @@ const plans = [
 ];
 
 const PricingSection = () => {
+  const navigate = useNavigate();
   return (
-    <section className="px-5 py-20  bg-[#040603] text-white">
+    <section id="Pricing" className="px-5 py-20  bg-[#040603] text-white">
       <div className="max-w-6xl mx-auto">
         
         <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-10">
@@ -51,7 +53,7 @@ const PricingSection = () => {
                 <span className="text-gray-400 text-sm">{plan.period}</span>
               </div>
 
-              <button className="w-full bg-lime-400/20 text-lime-300 py-3 rounded-full font-semibold mb-6 
+              <button onClick={() => navigate("/membership")} className="w-full bg-lime-400/20 text-lime-300 py-3 rounded-full font-semibold mb-6 
                 hover:bg-lime-400 hover:text-black transition-all">
                 Choose Plan
               </button>

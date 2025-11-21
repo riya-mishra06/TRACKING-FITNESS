@@ -1,8 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const Hero = () => {
+ const navigate = useNavigate();
   return (
-    <div className="h-screen w-full bg-[#040603] ">
+    <div id="Home" className="h-screen w-full bg-[#040603] mt-20">
           <section className="relative w-[100vw] h-[80vh] flex items-center justify-center overflow-hidden rounded-3xl mx-auto max-w-[1200px] p-3">
       
       {/* Background Image */}
@@ -27,10 +32,10 @@ const Hero = () => {
 
         {/* Buttons */}
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button className="bg-lime-400 text-black font-semibold px-8 py-3 rounded-full hover:bg-lime-300 transition">
+          <button  onClick={() => navigate("/login")} className="bg-lime-400 text-black font-semibold px-8 py-3 rounded-full hover:bg-lime-300 transition">
             Sign Up
           </button>
-          <button className="bg-white/20 backdrop-blur text-white border border-white px-8 py-3 rounded-full hover:bg-white/30 transition">
+          <button onClick={() => navigate("/footer")}  className="bg-white/20 backdrop-blur text-white border border-white px-8 py-3 rounded-full hover:bg-white/30 transition">
             Try Demo
           </button>
         </div>

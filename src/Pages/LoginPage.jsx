@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import NavBar from "../Components/Common.jsx/NavBar";
+// import NavBar from "../Components/Common.jsx/NavBar";
 
 const LoginPage = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -26,9 +26,9 @@ const LoginPage = () => {
 
   return (
     <>
-      <NavBar />
+   
 
-      <div className="min-h-[88.5vh] w-full bg-[#040603] flex items-center justify-center px-4 pt-28 sm:pt-32 md:pt-20">
+      <div className="min-h-screen w-full bg-[#040603] flex items-center justify-center px-4 pt-28 sm:pt-32 md:pt-20">
         <div className="bg-[#040603]/60 rounded-xl p-6 sm:p-8 md:p-10 w-full sm:w-[80%] md:w-[45%] lg:w-[30%] shadow-xl border border-white/10 backdrop-blur-md transition-all duration-300">
 
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6 text-center">

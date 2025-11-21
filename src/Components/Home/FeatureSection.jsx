@@ -20,7 +20,7 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section className="px-2   bg-[#040603]">
+    <section id="Features" className="px-2   bg-[#040603]">
       <div className="max-w-6xl mx-auto text-center text-white">
         
         <h2 className="text-3xl md:text-4xl font-extrabold mb-3">
