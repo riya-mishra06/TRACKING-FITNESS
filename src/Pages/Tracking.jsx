@@ -10,19 +10,15 @@ const Tracking = () => {
     setMeals([...meals, meal]);
   };
 
-  const deleteMeal = (index) => {
-    setMeals(meals.filter((_, i) => i !== index));
-  };
-
   return (
 <>
 <Nav/>
     <div className="min-h-screen bg-[#040603] text-white p-4 md:p-8">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6">Daily Nutrition Tracking</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">
+        Daily Nutrition Tracking
+      </h1>
 
       <Nutrition addMeal={addMeal} />
-
-      {/* <MealEntry meals={meals} deleteMeal={deleteMeal} /> */}
     </div>
 
 </>
