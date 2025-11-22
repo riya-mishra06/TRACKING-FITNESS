@@ -19,7 +19,7 @@ const LoginPage = () => {
   // popup message
   const [popup, setPopup] = useState({ type: "", message: "" });
 
-  const auth = getAuth(app);
+  const auth = getAuth(app);``
   const navigate = useNavigate();
 
   // show popup
