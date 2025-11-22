@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import PriceCard from "../Components/Membership/PriceCard";
 import FeatureList from "../Components/Membership/FeatureList";
+import Nav from "../Components/Common.jsx/Nav";
 
 const MemberShip = () => {
   const [currentPlan] = useState("Premium");
   const [nextPayment] = useState("July 15, 2024");
 
   return (
-    <div className="min-h-screen bg-[#040603] text-white px-4 md:px-12 py-10">
+ <>
+   <Nav/>
+    
+    <div className="min-h-screen bg-[#040603] text-white px-4 md:px-12 py-10  mt-20">
       <h1 className="text-3xl font-semibold mb-6">Membership</h1>
 
       {/* Current Plan */}
@@ -68,6 +72,7 @@ const MemberShip = () => {
         </button>
       </div>
     </div>
+ </>
   );
 };
 
