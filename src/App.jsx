@@ -5,7 +5,7 @@ import DashBoard from "./Pages/DashBoard";
 import Tracking from "./Pages/Tracking";
 import MemberShip from "./Pages/MemberShip";
 import Footer from "./Components/Common.jsx/Footer";
-import ProtectedRoute from "./ProtectedRoute";
+import Reports from "./Pages/Reports";
 
 function App() {
   return (
@@ -20,27 +20,28 @@ function App() {
         <Route 
           path="/dashboard" 
           element={
-            <ProtectedRoute>
               <DashBoard />
-            </ProtectedRoute>
           } 
         />
 
         <Route 
           path="/tracking" 
           element={
-            <ProtectedRoute>
               <Tracking />
-            </ProtectedRoute>
           } 
         />
 
         <Route 
           path="/membership" 
           element={
-            <ProtectedRoute>
               <MemberShip />
-            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/reports" 
+          element={
+              <Reports />
           } 
         />
 
